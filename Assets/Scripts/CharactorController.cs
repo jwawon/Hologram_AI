@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharactorContoller : MonoBehaviour {
+public class CharactorController : MonoBehaviour {
 	public Animator ChanAnim;
 	public Text InputText;
 	float InitTime;
