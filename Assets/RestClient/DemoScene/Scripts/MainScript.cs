@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using Models;
 using Proyecto26;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 public class MainScript : MonoBehaviour {
 
     private readonly string basePath = "https://jsonplaceholder.typicode.com";
+	#if UNITY_EDITOR
 
 	public void Get(){
 
@@ -80,4 +83,6 @@ public class MainScript : MonoBehaviour {
 			}
 		});
 	}
+	#endif
+	
 }

@@ -1,23 +1,58 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using Models;
 using Proyecto26;
 using System.Collections.Generic;
+using LitJson;
 
 public class RestfulMainScript : MonoBehaviour {
-
+	public TextAsset jsonDataTest;
     private readonly string basePath = "https://jsonplaceholder.typicode.com";
 	[SerializeField]
 	string basePath_fromai;
-    public void getDataFromAi() {
+
+	public void GetTextToJson(){
+		LitJson.JsonData getData = LitJson.JsonMapper.ToObject(jsonDataTest.text);
+		string name = getData["name"].ToString();
+		int score = int.Parse(getData["score"].ToString());	
+		Debug.Log("Name: " + name + "\t" + "Score: " + score);
+	}
+
+	// public void GetTestFromJson() {
+	// 	LitJson.JsonData getData = LitJson.JsonMapper.ToObject(jsonDataTest.text);
+	// 	string ss = getData["response"].ToString();
+	// 	Model model = new Model();
+	// 	model.response = ss;
+		
+	// 	ff = LitJson.getData.FromJson(ss, model);
+
+	// }
+
+	#if UNITY_EDITOR
+    public void GetDataFromAi() {
         //sample 로 일단 http 처리를 하겠습니다.
         string question = "hello world";
         string userid = "1234567890";
         RestClient.Get(basePath_fromai + "/api/rest/v1.0/ask?question="+question+"&userid="+userid).Then (res => {
             //success 
             //Ask val = _responseProcess(res.text);
-            //EditorUtility.DisplayDialog("Response",val, "OK");
-            EditorUtility.DisplayDialog("Response", res.text, "OK");
+            // EditorUtility.DisplayDialog("Response",val, "OK");
+			// Person person = JsonUtility.FromJson(res.text, Person.class);
+            
+			Debug.Log(res.GetType());
+			Debug.Log(res.data);
+			
+			EditorUtility.DisplayDialog("Response", res.text, "OK");
+			
+			LitJson.JsonData getData = LitJson.JsonMapper.ToObject(res.text);
+			
+			string answer = getData[0]["response"]["answer"].ToString();
+			int score = int.Parse(getData[0]["response"]["userid"].ToString());	
+				
+			Debug.Log("Answer: " + answer + "\t" + "userid: " + score);			
+			
         }).Catch(err => EditorUtility.DisplayDialog("Error",err.Message,"OK"));
     }
 
@@ -93,4 +128,5 @@ public class RestfulMainScript : MonoBehaviour {
 			}
 		});
 	}
+	#endif
 }
