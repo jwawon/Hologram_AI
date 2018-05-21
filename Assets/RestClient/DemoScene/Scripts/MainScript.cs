@@ -5,10 +5,13 @@ using UnityEditor;
 using Models;
 using Proyecto26;
 using System.Collections.Generic;
+using LitJson;
 
 public class MainScript : MonoBehaviour {
 
     private readonly string basePath = "https://jsonplaceholder.typicode.com";
+	private readonly string basePath_fromai = "http://61.85.36.59";
+
 	#if UNITY_EDITOR
 
 	public void Get(){
@@ -83,6 +86,24 @@ public class MainScript : MonoBehaviour {
 			}
 		});
 	}
+
+	public void getDataFromNLP() {
+		//sample 로 일단 http 처리를 하겠습니다.
+		string question = "hello world";
+		RestClient.Get(basePath_fromai + ":5000/api/rest/v1.0/ask?question="+question).Then (res => {
+			//success 
+			JsonData tmp_array_data = JsonMapper.ToObject(res.text);
+			JsonData tmp_response_data = tmp_array_data[0];
+			JsonData tmp_json_data = tmp_response_data["response"];
+			string answer = (string) tmp_json_data["answer"];
+			EditorUtility.DisplayDialog("Response", answer, "OK");
+		}).Catch(err => EditorUtility.DisplayDialog("Error",err.Message,"OK"));
+	}
+
+	public void getDataFromCV() {
+		//sample 로 일단 http 처리를 하겠습니다.
+
+	}
 	#endif
-	
+
 }
