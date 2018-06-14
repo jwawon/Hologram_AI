@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using Models;
 using Proyecto26;
+using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 
@@ -89,8 +91,8 @@ public class MainScript : MonoBehaviour {
 
 	public void getDataFromNLP() {
 		//sample 로 일단 http 처리를 하겠습니다.
-		string question = "hello world";
-		RestClient.Get(basePath_fromai + ":5000/api/rest/v1.0/ask?question="+question).Then (res => {
+		string question = "fuck!!!";
+		RestClient.Get(basePath_fromai + ":8989/api/rest/v1.0/ask?question="+question).Then (res => {
 			//success 
 			JsonData tmp_array_data = JsonMapper.ToObject(res.text);
 			JsonData tmp_response_data = tmp_array_data[0];
@@ -100,9 +102,47 @@ public class MainScript : MonoBehaviour {
 		}).Catch(err => EditorUtility.DisplayDialog("Error",err.Message,"OK"));
 	}
 
+	public IEnumerator PostFileUpload(string title) {
+		string filePath = "/Users/dongilkim/Downloads/";
+		string filename = "111.jpg";
+		//string title = "test";
+
+		//image load
+		WWW localfile = new WWW ("file:///" + filePath + filename);
+		yield return localfile;
+		if (localfile.error != null) {
+			EditorUtility.DisplayDialog ("Error", localfile.error , "Ok");
+		}
+
+		//set post parameter (key:value)
+		WWWForm postForm = new WWWForm ();
+		//postForm.AddField ("title", title);
+		postForm.AddBinaryData ("photo", localfile.bytes,filePath + filename, "text/plain");
+
+		//post request
+		WWW www = new WWW(basePath_fromai + ":8000/polls/upload_file", postForm);
+		yield return www;
+
+		//result
+		if (www.error == null) {
+			EditorUtility.DisplayDialog ("Error", www.text, "Ok");
+		} else {
+			EditorUtility.DisplayDialog ("Error", www.error , "Ok");
+		}
+	}
+
+	public IEnumerator uploadFile(WWW upload) {
+		yield return upload;
+		if (upload.error == null) {
+			EditorUtility.DisplayDialog ("Error", upload.text, "Ok");
+		} else {
+			EditorUtility.DisplayDialog ("Error", upload.error , "Ok");
+		}
+	}
+
 	public void getDataFromCV() {
 		//sample 로 일단 http 처리를 하겠습니다.
-
+		StartCoroutine(PostFileUpload("test"));
 	}
 	#endif
 
