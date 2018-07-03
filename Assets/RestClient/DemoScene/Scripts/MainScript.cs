@@ -114,20 +114,34 @@ public class MainScript : MonoBehaviour {
 			EditorUtility.DisplayDialog ("Error", localfile.error , "Ok");
 		}
 
-		//set post parameter (key:value)
+		/*//set post parameter (key:value)
 		WWWForm postForm = new WWWForm ();
 		//postForm.AddField ("title", title);
-		postForm.AddBinaryData ("photo", localfile.bytes,filePath + filename, "text/plain");
+		postForm.AddBinaryData ("photo", localfile.bytes,filename, "image/jpg");
 
 		//post request
-		WWW www = new WWW(basePath_fromai + ":8000/polls/upload_file", postForm);
-		yield return www;
+		UnityWebRequest www = UnityWebRequest.Post(basePath_fromai + ":8000/polls/upload_file/", postForm);
+		yield return www.SendWebRequest();
 
 		//result
 		if (www.error == null) {
-			EditorUtility.DisplayDialog ("Error", www.text, "Ok");
+			//EditorUtility.DisplayDialog ("Error", www.text, "Ok");
 		} else {
 			EditorUtility.DisplayDialog ("Error", www.error , "Ok");
+		}*/
+
+		List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+		//formData.Add( new MultipartFormDataSection("field1=foo&field2=bar") );
+		formData.Add( new MultipartFormFileSection("photo", localfile.bytes, filename, "") );
+
+		UnityWebRequest www = UnityWebRequest.Post(basePath_fromai + ":8000/polls/upload_file/", formData);
+		yield return www.SendWebRequest();
+
+		if(www.isNetworkError || www.isHttpError) {
+			Debug.Log(www.error);
+		}
+		else {
+			Debug.Log("Form upload complete!");
 		}
 	}
 
