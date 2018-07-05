@@ -4,24 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CharactorController : MonoBehaviour {
-	public Animator ChanAnim;
-	public Text InputText;
-	float InitTime;
-	float ElapsedTime = 10f;
-	void Start() {
-		InitTime = Time.time;
-	}
+	public Animator sushiAnim;
+
+
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Return)){
-			if(InputText.text == "Hello" || InputText.text == "Hi") ChanAnim.SetTrigger("Hi");	
-			if(InputText.text == "You're wrong") ChanAnim.SetTrigger("Wrong");	
-			if(InputText.text == "You're right" || InputText.text == "Thank you") ChanAnim.SetTrigger("Yay");
-			if(Time.time - InitTime > ElapsedTime){
-				ChanAnim.SetBool("IsBored", true);
-				InitTime = Time.time;
+		if(RestfulMainScript.isStartAnim){
+			if(RestfulMainScript.nlpAnswer.Split(',')[0] == "Sorry"){
+				sushiAnim.SetTrigger("Sorry");
+				RestfulMainScript.isStartAnim = false;
 			}
-			else 
-				ChanAnim.SetBool("IsBored", false);
+			else{
+				sushiAnim.SetTrigger("Order");
+				RestfulMainScript.isStartAnim = false;
+			}
 		}
 	}
 }

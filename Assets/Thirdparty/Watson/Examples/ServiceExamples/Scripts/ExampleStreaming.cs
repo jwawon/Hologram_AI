@@ -24,13 +24,17 @@ using IBM.Watson.DeveloperCloud.DataTypes;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class ExampleStreaming : MonoBehaviour
+public class ExampleStreaming : MonoBehaviour   
 {
+    public GameObject charactor;
+    public GameObject restfulManager;
+    public static string ttsQuestion;
+    public static bool isComplete=false;
     private string _username = "d24c8b92-b51d-48f4-9deb-3939851fc483";
     private string _password = "DOAa2iGbg1AG";
     private string _url = "https://stream.watsonplatform.net/speech-to-text/api";
     
-    public Text ResultsField;
+    public Text resultsField;
 
     private int _recordingRoutine = 0;
     private string _microphoneID = null;
@@ -81,7 +85,7 @@ public class ExampleStreaming : MonoBehaviour
         }
     }
 
-    private void StartRecording()
+    public void StartRecording()
     {
         if (_recordingRoutine == 0)
         {
@@ -90,7 +94,7 @@ public class ExampleStreaming : MonoBehaviour
         }
     }
 
-    private void StopRecording()
+    public void StopRecording()
     {
         if (_recordingRoutine != 0)
         {
@@ -167,6 +171,7 @@ public class ExampleStreaming : MonoBehaviour
 
     private void OnRecognize(SpeechRecognitionEvent result)
     {
+        charactor.SetActive(true);
         if (result != null && result.results.Length > 0)
         {
             foreach (var res in result.results)
@@ -175,7 +180,12 @@ public class ExampleStreaming : MonoBehaviour
                 {
                     string text = string.Format("{0} ({1}, {2:0.00})\n", alt.transcript, res.final ? "Final" : "Interim", alt.confidence);
                     Log.Debug("ExampleStreaming.OnRecognize()", text);
-                    ResultsField.text = text;
+                    if(res.final){
+                        ttsQuestion = text.Split('(')[0];
+                        resultsField.text = ttsQuestion;
+                        isComplete = true;
+                        restfulManager.SetActive(true);
+                    }
                 }
 
                 if (res.keywords_result != null && res.keywords_result.keyword != null)

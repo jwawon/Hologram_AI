@@ -459,19 +459,19 @@ namespace IBM.Watson.DeveloperCloud.UnitTests
         {
             yield return new WaitForSeconds(waitTime);
 
-            if (!_retrieveAndRank.GetCluster((SolrClusterResponse resp, Dictionary<string, object> customData) =>
+            if (!_retrieveAndRank.GetCluster((RetrieveAndRank.SuccessCallback<SolrClusterResponse>)((SolrClusterResponse resp, Dictionary<string, object> customData) =>
             {
                 Log.Debug("TestRetrieveAndRank.CheckClusterStatus()", "Solr cluster status is '{0}'", resp.solr_cluster_status);
                 if (resp.solr_cluster_status.ToLower() != "ready")
                 {
                     Log.Debug("TestRetrieveAndRank.CheckClusterStatus()", "Checking cluster status in 10 seconds");
-                    Runnable.Run(CheckClusterStatus(waitTime));
+                    Runnable.Run((IEnumerator)CheckClusterStatus((float)waitTime));
                 }
                 else
                 {
                     _isClusterReady = true;
                 }
-            }, OnFail, _clusterToDelete))
+            }), this.OnFail, _clusterToDelete))
                 Log.Debug("TestRetrieveAndRank.CheckClusterStatus()", "Failed to get cluster");
         }
 
@@ -479,19 +479,19 @@ namespace IBM.Watson.DeveloperCloud.UnitTests
         {
             yield return new WaitForSeconds(waitTime);
 
-            if (!_retrieveAndRank.GetRanker((RankerStatusPayload resp, Dictionary<string, object> customData) =>
+            if (!_retrieveAndRank.GetRanker((RetrieveAndRank.SuccessCallback<RankerStatusPayload>)((RankerStatusPayload resp, Dictionary<string, object> customData) =>
             {
                 Log.Debug("TestRetrieveAndRank.CheckRankerStatus()", "Solr ranker status is '{0}'", resp.status);
                 if (resp.status.ToLower() != "available")
                 {
                     Log.Debug("TestRetrieveAndRank.CheckRankerStatus()", "Checking ranker status in 10 seconds");
-                    Runnable.Run(CheckRankerStatus(10f));
+                    Runnable.Run((IEnumerator)CheckRankerStatus((float)10f));
                 }
                 else
                 {
                     _isRankerReady = true;
                 }
-            }, OnFail, _rankerIdToDelete))
+            }), this.OnFail, _rankerIdToDelete))
                 Log.Debug("TestRetrieveAndRank.CheckRankerStatus()", "Failed to get ranker");
         }
 
