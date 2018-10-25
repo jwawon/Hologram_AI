@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c54a36e058eb54d80b9e1e089ff923b3
-timeCreated: 1527856951
+guid: 0134f49a620434cf7a243ded3a1fef1f
+timeCreated: 1540027052
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -598,8 +598,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Idle
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 149
+      firstFrame: 0
+      lastFrame: 150
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -626,8 +626,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Order
       takeName: Take 001
-      firstFrame: 150
-      lastFrame: 299
+      firstFrame: 151
+      lastFrame: 300
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

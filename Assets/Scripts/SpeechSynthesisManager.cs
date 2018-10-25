@@ -5,8 +5,7 @@ using UnityEngine;
 public class SpeechSynthesisManager : MonoBehaviour {
 
 	AudioSource source;
-	// string TTSurl = "http://www.onionfriends.com/OnSpeech/tts.mp3";
-	string url = "http://61.85.36.59:9000/synthesize?text=";
+	string url = "";
 	string TTSurl;
 
 	void OnEnable() {

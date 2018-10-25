@@ -30,13 +30,14 @@ public class RestfulMainScript : MonoBehaviour {
 		// string question = "hello world";
 		string question = ExampleStreaming.ttsQuestion;
 
-		Debug.Log(question);
+		Debug.Log("Custumer: " + question);
 		RestClient.Get(basePath_fromai + "/api/rest/v1.0/ask?question="+question).Then (res => {
 			//success 
 			JsonData tmp_array_data = JsonMapper.ToObject(res.Text);
 			JsonData tmp_response_data = tmp_array_data[0];
 			JsonData tmp_json_data = tmp_response_data["response"];
 			nlpAnswer = (string) tmp_json_data["answer"];
+			Debug.Log("Answer: " + nlpAnswer);
 			nlpAnswerText.text = nlpAnswer;
 			isNlpComplete = true;
 			isStartAnim = true;
