@@ -28,8 +28,8 @@ public class ExampleTextToSpeech : MonoBehaviour
 	public GameObject SpeechToTextManager;
 	AudioSource source;
 
-    private string _username = "";
-    private string _password = "";
+    private string _username = "6f7a3ceb-3e2e-4fac-914d-0b9a87fe57d4";
+    private string _password = "qVnImcuHjYWd";
     private string _url = "https://stream.watsonplatform.net/text-to-speech/api";
 
     TextToSpeech _textToSpeech;

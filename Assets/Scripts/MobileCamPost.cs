@@ -15,7 +15,7 @@ public class MobileCamPost : MonoBehaviour {
 	public Text cvText;
 	public GameObject model;
     bool cvResult;
-	private readonly string basePath_fromai = "";
+	private readonly string basePath_fromai = "http://61.85.36.59:8000/polls/binary_receive";
 	private bool camAvailable;
 	private WebCamTexture cameraTexture;
 	private Texture defaultBackground;

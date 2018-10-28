@@ -14,7 +14,7 @@ public class CameraImagePost : MonoBehaviour {
 	public Text cvText;
 	public GameObject model;
     bool cvResult;
-	private readonly string basePath_fromai = "";
+	private readonly string basePath_fromai = "http://61.85.36.59:8000/polls/binary_receive/";
 	private bool isCamAvailable;
 	void Start () {
 		Debug.Log(WebCamTexture.devices[0].name);

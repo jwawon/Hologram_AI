@@ -30,8 +30,8 @@ public class ExampleStreaming : MonoBehaviour
     public GameObject restfulManager;
     public static string ttsQuestion;
     public static bool isComplete=false;
-    private string _username = "";
-    private string _password = "";
+    private string _username = "d24c8b92-b51d-48f4-9deb-3939851fc483";
+    private string _password = "DOAa2iGbg1AG";
     private string _url = "https://stream.watsonplatform.net/speech-to-text/api";
     
     public Text resultsField;
